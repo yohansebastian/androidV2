@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     donde se copian los archivos .xml que son los de diseño, para adoptar
     la vista horizontal.
 
+    Que tenga compatibilidad con distintos tipos de pantalla.
+
 
     */
     @Override
