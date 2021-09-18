@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "869015016631",
+    "project_id": "moviles2sabado",
+    "storage_bucket": "moviles2sabado.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869015016631:android:e08b863e281a867c1d2932",
+        "android_client_info": {
+          "package_name": "com.example.mobiles2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869015016631-mcbhkhakqdh72mno50kb80on46jqc66a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd6qCPjh-zSc9eUojOdJ8Zq9jfu_sFACc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869015016631-mcbhkhakqdh72mno50kb80on46jqc66a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
