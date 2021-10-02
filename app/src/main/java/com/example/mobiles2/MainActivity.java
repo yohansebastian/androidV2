@@ -1,43 +1,64 @@
 package com.example.mobiles2;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobiles2.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity{
+
+    private ActivityMainBinding mainBinding;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    EditText etEmail, etPassword;
-    Button btnLogin,btnTest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnTest = findViewById(R.id.btnTest);
 
-        btnTest.setOnClickListener(this);
-        btnLogin.setOnClickListener(this);
+        mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        View view = mainBinding.getRoot();
+
+        setContentView(view);
+
+        realtimeData();
+
+        mainBinding.btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createUser();
+            }
+        });
+        mainBinding.btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                login();
+            }
+        });
     }
     public void createUser(){
         Map<String, Object> userData = new HashMap<>();
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
+        String email =  mainBinding.etEmail.getText().toString();
+        String password =  mainBinding.etPassword.getText().toString();
         userData.put("email",email);
         userData.put("pass",password);
         db.collection("users")
@@ -56,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
     public void login(){
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
+        String email =  mainBinding.etEmail.getText().toString();
+        String password =  mainBinding.etPassword.getText().toString();
         Toast.makeText(this, email+password, Toast.LENGTH_SHORT).show();
         if(email.equals("")){
             Toast.makeText(this, "Email Vacío", Toast.LENGTH_SHORT).show();
@@ -83,16 +104,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      para ver las combinaciones de colores usar la siguiente pagina :
      https://www.materialpalette.com/lime/yellow
      https://www.materialpalette.com/icons
+
+     02/10/2021
+
+     View Bindig
     */
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btnLogin:
-                login();
-                break;
-            case R.id.btnTest:
-                createUser();
-                break;
-        }
+
+    public void realtimeData(){
+        /*final DocumentReference docRef = db.collection("users")
+                .document("471iMwyyybpvn4o6Gkqq");
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value,
+                                @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w("Error data", "Listen failed.", error);
+                    return;
+                }
+
+                if (value != null && value.exists()) {
+
+                    Log.d("Snapshop", "Current data: " + value.getData());
+                } else {
+                    Log.d("Snapshop", "Current data: null");
+                }
+            }
+        });*/
+        final DocumentReference docRef = db.collection("users").document("upxsgqcP7QL8e7fk30oL");
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("Error Data", "Listen failed.", e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d("Snapshop", "Current data: " + snapshot.getData());
+                } else {
+                    Log.d("Snapshop", "Current data: null");
+                }
+            }
+        });
     }
 }
